@@ -18,7 +18,7 @@ provider:
   runtime: nodejs8.10
   region: eu-central-1
   stage: prod
-  profile: private
+  profile: private-sls
   deploymentBucket:
     name: deployment.iot.click
 
@@ -27,7 +27,7 @@ functions:
   iotclick:
     handler: handler.athome
     environment:
-      BUCKET: athome
+      BUCKET: sambot-athome
     tags: # Function specific tags
       project: sambot
       sambot: athome

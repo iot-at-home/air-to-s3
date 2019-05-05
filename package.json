@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/iot-at-home/athome-to-s3/issues"
   },
-  "homepage": "https://github.com/iot-at-home/athome-to-s3#readme"
+  "homepage": "https://github.com/iot-at-home/athome-to-s3#readme",
+  "dependencies": {
+    "moment-timezone": "^0.5.25"
+  }
 }
