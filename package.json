@@ -1,0 +1,22 @@
+{
+  "name": "athome-to-s3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iot-at-home/athome-to-s3.git"
+  },
+  "keywords": [
+    "iot"
+  ],
+  "author": "Sebastian Felix Schwarz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iot-at-home/athome-to-s3/issues"
+  },
+  "homepage": "https://github.com/iot-at-home/athome-to-s3#readme"
+}
