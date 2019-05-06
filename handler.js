@@ -9,13 +9,21 @@ const BUCKET = process.env.BUCKET;
 
 module.exports.athome = async (event) => {
   console.log(event);
-  //{ device: '"Nora"', active: '1' }
   let obj = {
     device : event.device,
     active : event.active,
     update: moment().tz("Europe/Berlin").format()
   };
   let filename = obj.device+'.json';
+  let data = await s3.getObject({
+    Bucket: BUCKET,
+    Key: filename
+  }).promise();
+  let user = JSON.parse(data.Body.toString());
+  if(user.active !== obj.active){
+    obj.last = user.update;
+  }
+
 
   let bufferObject = new Buffer.from(JSON.stringify(obj));
   let s3params = {
