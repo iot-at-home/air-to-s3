@@ -20,6 +20,10 @@
   },
   "homepage": "https://github.com/iot-at-home/athome-to-s3#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "moment-timezone": "^0.5.25"
+  },
+  "devDependencies": {
+    "serverless-secrets-plugin": "^0.1.0"
   }
 }

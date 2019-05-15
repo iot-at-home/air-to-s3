@@ -12,6 +12,8 @@
 # Happy Coding!
 
 service: athome-to-s3 # NOTE: update this with your service name
+plugins:
+  - serverless-secrets-plugin
 
 provider:
   name: aws
@@ -22,12 +24,16 @@ provider:
   deploymentBucket:
     name: deployment.iot.click
 
+custom:
+  secrets: ${file(secrets.${opt:stage, self:provider.stage}.yml)}
+
 
 functions:
   iotclick:
     handler: handler.athome
     environment:
-      BUCKET: sambot-athome
+      BUCKET: ${self:custom.secrets.BUCKET}
+      BLYNK: ${self:custom.secrets.BLYNK}
     tags: # Function specific tags
       project: sambot
       sambot: athome
