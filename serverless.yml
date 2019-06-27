@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: athome-to-s3 # NOTE: update this with your service name
+service: air-to-s3 # NOTE: update this with your service name
 plugins:
   - serverless-secrets-plugin
 
@@ -30,10 +30,10 @@ custom:
 
 functions:
   iotclick:
-    handler: handler.athome
+    handler: handler.air
     environment:
       BUCKET: ${self:custom.secrets.BUCKET}
       BLYNK: ${self:custom.secrets.BLYNK}
     tags: # Function specific tags
       project: sambot
-      sambot: athome
+      sambot: air

@@ -26,7 +26,7 @@ function mapUser2Pin(dev){
 }
 
 
-module.exports.athome = async (event) => {
+module.exports.air = async (event) => {
   console.log(event);
   let obj = {
     device : event.device,
