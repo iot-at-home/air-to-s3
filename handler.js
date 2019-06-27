@@ -28,23 +28,56 @@ function mapUser2Pin(dev){
 
 module.exports.air = async (event) => {
   console.log(event);
+  const now = moment().tz("Europe/Berlin").format();
   let obj = {
-    device : event.device,
-    active : event.active,
-    update: moment().tz("Europe/Berlin").format()
+    temp : parseFloat(event.temp),
+    hum : parseFloat(event.hum),
+    hic : parseFloat(event.hic),
+    gas : parseFloat(event.gas),
+    room : event.room,
+    update: now
   };
-  let filename = obj.device+'.json';
+  let filename = obj.room+'.json';
   let data = await s3.getObject({
     Bucket: BUCKET,
     Key: filename
   }).promise();
-  let user = JSON.parse(data.Body.toString());
-  if(user.active !== obj.active || user.hasOwnProperty('last') === false){
-    obj.last = user.update;
+  let temp = JSON.parse(data.Body.toString());
+  if(parseFloat(temp.maxTemp) < obj.temp){
+    obj.maxTemp = obj.temp;
+    obj.maxTempTS = now;
   }else{
-    obj.last = user.last;
+    obj.maxTemp = temp.maxTemp;
+    obj.maxTempTS = temp.maxTempTS;
   }
-
+  if(parseFloat(temp.minTemp)<obj.temp){
+    obj.minTemp = temp.minTemp;
+    obj.minTempTS = temp.minTempTS;
+  }else{
+    obj.minTemp = obj.temp;
+    obj.minTempTS = now;
+  }
+  if(parseFloat(temp.maxHum) < obj.hum){
+    obj.maxHum = obj.hum;
+    obj.maxHumTS = now;
+  }else{
+    obj.maxHum = temp.maxHum;
+    obj.maxHumTS = temp.maxHumTS;
+  }
+  if(parseFloat(temp.maxHic) < obj.hic){
+    obj.maxHic = obj.hic;
+    obj.maxHicTS = now;
+  }else{
+    obj.maxHic = temp.maxHic;
+    obj.maxHicTS = temp.maxHicTS;
+  }
+  if(parseFloat(temp.maxGas) < obj.gas){
+    obj.maxGas = obj.gas;
+    obj.maxGasTS = now;
+  }else{
+    obj.maxGas = temp.maxGas;
+    obj.maxGasTS = temp.maxGasTS;
+  }
 
   let bufferObject = new Buffer.from(JSON.stringify(obj));
   let s3params = {
@@ -56,7 +89,7 @@ module.exports.air = async (event) => {
   };
 
   const key = await s3.upload(s3params).promise();
-  const blynk = await writePin(mapUser2Pin(obj.device),obj.last);
+ // const blynk = await writePin(mapUser2Pin(obj.device),obj.last);
   return {
     statusCode: 200,
     body: JSON.stringify({
